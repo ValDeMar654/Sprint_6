@@ -114,4 +114,4 @@ pip3 install -r requirements.txt
 Для формирования отчёта в формате веб-страницы выполните команду:
 ```
 allure serve allure_results
-```# Sprint_6
+```
