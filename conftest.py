@@ -1,15 +1,12 @@
 import pytest
-from locators.order_locators import OrderLocators
-from locators.questions_about_metters_locators import FaqLocators
+from selenium import webdriver
+from urls import scooter_main_page
 
 
 @pytest.fixture(scope="function")
-def order_locators():
-    order_locators = OrderLocators()
-    return order_locators
-
-
-@pytest.fixture(scope="function")
-def faq_locators():
-    faq_locators = FaqLocators()
-    return faq_locators
+def driver():
+    driver = webdriver.Firefox()
+    driver.maximize_window()
+    driver.get(scooter_main_page)
+    yield driver
+    driver.quit()
