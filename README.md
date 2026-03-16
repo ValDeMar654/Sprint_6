@@ -98,19 +98,11 @@ def test_order_via_button_in_header
 наборами данных по клику по кнопке "Заказать" в середине страницы
 
 ## test_questions_about_metters
-Файл содержит тесты:
+Файл содержит параметризированный тест:
 ```
-def test_check_question_1
-def test_check_question_2
-def test_check_question_3
-def test_check_question_4
-def test_check_question_5
-def test_check_question_6
-def test_check_question_7
-def test_check_question_8
+def test_check_question
 ```
 которые проверяют клик по вопросу и появление ответа.
-По заданию, на каждый вопрос должен быть написан отдельный тест. 
 
 ## test_transitions
 Файл содержит тесты:

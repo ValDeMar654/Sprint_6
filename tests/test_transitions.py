@@ -17,7 +17,7 @@ class TestTransitions:
             self, driver):
         transition = Transitions(driver)
         transition.yandex_logo_transition()
-        assert "dzen" in driver.current_url
+        assert "dzen" in transition.get_current_url()
      
     @allure.title('Проверка перехода на главную страницу Самоката '
                   'по клику на логотип Самокат.'
@@ -28,4 +28,4 @@ class TestTransitions:
             self, driver):
         transition = Transitions(driver)
         transition.select_scooter_logo()
-        assert driver.current_url == scooter_main_page
+        assert transition.get_current_url() == scooter_main_page

@@ -4,7 +4,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
-from urls import scooter_main_page
+from locators.base_locators import BaseLocators
 
 
 class Base:
@@ -53,55 +53,28 @@ class Base:
         self.driver.find_element(*element).send_keys(value)    
 
     @allure.step('Клик по пусому месту') 
-    def click_empty_space(self, base_locators):
+    def click_empty_space(self):
         return ActionChains(self.driver).move_to_element_with_offset(
             self.driver.find_element(
-                *base_locators.empty_space
+                *BaseLocators.empty_space
             ), 2, 300).click().perform()
-
-    @allure.step('Ждем появления кнопки "Заказать" в хедере')
-    def wait_for_load_header(self, base_locators):
-        WebDriverWait(self.driver, 3).until(
-            expected_conditions.visibility_of_element_located(
-                base_locators.order_button_in_header
-            )
-        ) 
-
-    @allure.step('Кликаем на кнопку "Заказать" в хедере')
-    def select_order_button_in_header(self, base_locators):
-        WebDriverWait(self.driver, 3).until(
-            expected_conditions.element_to_be_clickable(
-                base_locators.order_button_in_header
-            )).click()   
-
-    @allure.step('Кликаем на логотип Яндекс')
-    def select_yandex_logo(self, base_locators):
-        WebDriverWait(self.driver, 3).until(
-            expected_conditions.element_to_be_clickable(
-                base_locators.yandex_logo)).click()
-
-    @allure.step('Проверяем что по клику на логотип Яндекс осуществляется '
-                 'переход на главную страницу Дзен в новом окне')
-    def check_yandex_logo_transition(self):
-
+        
+    @allure.step('Переключаемся на следующее окно')
+    def change_window(self):
         if len(self.driver.window_handles) > 1:
             self.driver.switch_to.window(self.driver.window_handles[1])
-            assert "dzen" in self.driver.current_url
-            self.driver.close()
-            self.driver.switch_to.window(self.driver.window_handles[0])
         else:
             raise Exception("Страница должна была открыться в новом окне.")
 
-    @allure.step('# Кликаем на логотип Самокат')
-    def select_scooter_logo(self, base_locators):
-        WebDriverWait(self.driver, 3).until(
-            expected_conditions.element_to_be_clickable(
-                base_locators.scooter_logo)).click()
-        time.sleep(2)
-
-    @allure.step('Проверяем что по клику на логотип Самокат осуществляется '
-                 'переход на главную страницу «Самоката»')
-    def check_scooter_logo_transition(self):
-        assert (
-            self.driver.current_url == scooter_main_page
-        )
+    @allure.step('Ожидаем изменения url с about:blank')
+    def wait_for_url_not_blank(self):
+        WebDriverWait(self.driver, 10).until(
+            lambda d: d.current_url != "about:blank")
+    
+    @allure.step('Получаем уникальный идентификатор текущего активного окна')
+    def get_current_window_handle(self):
+        return self.current_window_handle
+    
+    @allure.step('Получаем url')
+    def get_current_url(self):
+        return self.driver.current_url

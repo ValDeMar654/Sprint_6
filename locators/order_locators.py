@@ -142,8 +142,3 @@ class OrderLocators:
     successful_order_window = (
         By.XPATH, '//div[@class = "Order_ModalHeader__3FDaJ" '
         'and text() = "Заказ оформлен"]')
-
-    # Кнопка "Посмотреть статус" в окне успешного заказа
-    successful_order_window_view_status_button = (
-        By.XPATH, '//div[@class = "Order_NextButton__1_rCA"] '
-        '/button[text()="Посмотреть статус"]')
